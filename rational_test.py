@@ -34,18 +34,18 @@ def get_expression(exp:str):
     number = ""
     for s in exp:
         if s.isdigit() or s == '.':
-            number += s
-            print('fist',number)#добавляем число в отдельную строку 
+            number += s#добавляем число в отдельную строку 
+            
         else:
             if number:
                 res.append(float(number))#добавляем полученное число в список с разбитыми частями выражения, если после итерации строка с числами не пустая
             number = ""#обнуляем строку , чтоб добавлять каждое число отдельно 
             res.append(s)#добавляем операцию отдельно
-            print('sec',res)
+            
     else:
         if number:
-            res.append(float(number))
-            print('3',res)#собираем получившийся список из чисел и операций 
+            res.append(float(number))#собираем получившийся список из чисел и операций 
+            
     return res
 
 def check_float(val):
@@ -55,7 +55,31 @@ def check_float(val):
     except ValueError:
         return False
 
+def check_complex(val):
+    try:
+        complex(val)
+        if complex(val).imag == 0:
+            return False
+        else:
+            return True
+    except ValueError:
+        return False
+        
+
+
 def result(value:str):
-    return(calculate(get_expression(value)))
+    # return(calculate(get_expression(value)))
+    parse_exp = get_expression(value)
+    parse_copy = parse_exp.copy()
+    for i in parse_exp:
+        if check_float(i) == True:
+            return calculate(parse_copy)
+        else:
+            #elif check_complex(i) == True:
+            print('это комплексное число')#сюда надо подставить функцию по вычислению комплексных чисел 
+
+
+
+
 
 
