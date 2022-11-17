@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
 import rational_test as rt
+import complex as c
 # import log                                       #  logger.add('debug.log', format='{time} {level} {message}', level='DEBUG', serialize=True) 
                                                       # то что можно в это log положить красиво ошибки подсвечивает
 
@@ -43,9 +44,16 @@ def add_operation(operation):
 def calculate():
     value = calc.get()       # функция принимает значение value (это строка, состоящяя из введенных 'число опнрация число')
     if value[-1] in '+-/*':   # если строка заканчивается на операцию, тогда мы к числу прибавим это же число (так в калькуляторах)
-        value = value + value[:-1]  
-    calc.delete(0,tk.END)       # очищаем поле ввода
-    calc.insert(0, rt.result(value))     # вставляем значение, которое вычисляем при помощи функции eval
+        value = value + value[:-1]
+    if value.count('j') > 0:
+        value = c.list_complex(value)
+        calc.delete(0,tk.END)       # очищаем поле ввода
+        calc.insert(0, c.calculator(value))     # вставляем значение, которое вычисляем при помощи функции eval
+    else:
+        value = rt.get_expression(value)
+        calc.delete(0,tk.END)       
+        calc.insert(0, rt.calculate(value))
+
   
 
 def clear():
