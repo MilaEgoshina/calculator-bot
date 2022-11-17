@@ -1,3 +1,4 @@
+import complex as c
 
 def summa(x,y):
     return x+y
@@ -48,35 +49,13 @@ def get_expression(exp:str):
             
     return res
 
-def check_float(val):
-    try:
-        float(val)
-        return True
-    except ValueError:
-        return False
 
-def check_complex(val):
-    try:
-        complex(val)
-        if complex(val).imag == 0:
-            return False
-        else:
-            return True
-    except ValueError:
-        return False
         
-
-
 def result(value:str):
-    # return(calculate(get_expression(value)))
-    parse_exp = get_expression(value)
-    parse_copy = parse_exp.copy()
-    for i in parse_exp:
-        if check_float(i) == True:
-            return calculate(parse_copy)
-        else:
-            #elif check_complex(i) == True:
-            print('это комплексное число')#сюда надо подставить функцию по вычислению комплексных чисел 
+    if value.count('j') == 1:
+        return c.main(value)
+    else:
+        return calculate(get_expression(value))
 
 
 
