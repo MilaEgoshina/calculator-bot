@@ -1,4 +1,3 @@
-import complex as c
 
 def summa(x,y):
     return x+y
@@ -49,13 +48,6 @@ def get_expression(exp:str):
             
     return res
 
-
-        
-def result(value:str):
-    if value.count('j') == 1:
-        return c.main(value)
-    else:
-        return calculate(get_expression(value))
 
 
 
