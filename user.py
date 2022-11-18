@@ -12,6 +12,7 @@ def add_digit(digit):
         value = value[1:]    
     calc.delete(0,tk.END)
     calc.insert(0,value+digit)
+    log.info_log(digit)
 
 def add_complex_char(compl):
     value = calc.get()
@@ -39,8 +40,7 @@ def add_operation(operation):
     #     value = calc.get() 
     calc.delete(0,tk.END)
     calc.insert(0,value+operation)
-    log.info_log(add_operation(operation))
-
+    log.info_log(operation)
 
 #@logger.catch 
 def calculate():
