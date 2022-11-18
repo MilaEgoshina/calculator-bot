@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import rational_test as rt
 import complex as c
+import logging as log
 # import log                                       #  logger.add('debug.log', format='{time} {level} {message}', level='DEBUG', serialize=True) 
                                                       # то что можно в это log положить красиво ошибки подсвечивает
 
@@ -38,6 +39,7 @@ def add_operation(operation):
     #     value = calc.get() 
     calc.delete(0,tk.END)
     calc.insert(0,value+operation)
+    log.info_log(add_operation(operation))
 
 
 #@logger.catch 
@@ -48,17 +50,20 @@ def calculate():
     if value.count('j') > 0:
         value = c.list_complex(value)
         calc.delete(0,tk.END)       # очищаем поле ввода
-        calc.insert(0, c.calculator(value))     # вставляем значение, которое вычисляем при помощи функции eval
+        calc.insert(0, c.calculator(value))    # вставляем значение, которое вычисляем при помощи функции eval
+        log.info_log(c.calculator(value))
     else:
         value = rt.get_expression(value)
         calc.delete(0,tk.END)       
         calc.insert(0, rt.calculate(value))
+        log.info_log(rt.calculate(value))
 
   
 
 def clear():
     calc.delete(0,tk.END)  
     calc.insert(0,0)
+    log.info_log(clear())
 
 def make_digit_button(digit):
     return tk.Button(text=digit, bd=5, font=('Arial',13), command=lambda : add_digit(digit))    
