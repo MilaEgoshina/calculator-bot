@@ -2,9 +2,42 @@ import tkinter as tk
 from tkinter import messagebox
 import rational_test as rt
 import complex as c
-import logging as log
+import logirovanie as l
+import telebot
 # import log                                       #  logger.add('debug.log', format='{time} {level} {message}', level='DEBUG', serialize=True) 
                                                       # то что можно в это log положить красиво ошибки подсвечивает
+
+API_TOKEN ='5478998023:AAEnIUT5-1BRTMlmvb9-YIoyF2pE9c1_jok'
+bot = telebot.TeleBot(API_TOKEN)
+calc = False
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    bot.send_message(message.chat.id,"Готов к работе!")
+
+@bot.message_handler(commands=['calc'])
+def calc_message(message):
+    global calc
+    calc=True
+    bot.send_message(message.chat.id, "А теперь введите выражение для вычисления" )
+
+@bot.message_handler(content_types='text')
+def message_reply(message):
+    global calc
+    if calc:
+        value = message.text      # функция принимает значение value (это строка, состоящяя из введенных 'число опнрация число')
+        if value.count('j') > 0:
+            value = c.list_complex(value)
+            bot.send_message(message.chat.id,c.calculator(value))
+            l.info_log(c.calculator(value))
+            calc=False
+        else:
+            value = rt.get_expression(value)
+            bot.send_message(message.chat.id,rt.calculate(value))
+            l.info_log(rt.calculate(value))
+            calc=False
+
+bot.polling()
 
 def add_digit(digit):
     value = calc.get()    
@@ -12,7 +45,7 @@ def add_digit(digit):
         value = value[1:]    
     calc.delete(0,tk.END)
     calc.insert(0,value+digit)
-    log.info_log(digit)
+    l.info_log(digit)
 
 def add_complex_char(compl):
     value = calc.get()
@@ -40,7 +73,7 @@ def add_operation(operation):
     #     value = calc.get() 
     calc.delete(0,tk.END)
     calc.insert(0,value+operation)
-    log.info_log(operation)
+    l.info_log(operation)
 
 #@logger.catch 
 def calculate():
@@ -51,19 +84,19 @@ def calculate():
         value = c.list_complex(value)
         calc.delete(0,tk.END)       # очищаем поле ввода
         calc.insert(0, c.calculator(value))    # вставляем значение, которое вычисляем при помощи функции eval
-        log.info_log(c.calculator(value))
+        l.info_log(c.calculator(value))
     else:
         value = rt.get_expression(value)
         calc.delete(0,tk.END)       
         calc.insert(0, rt.calculate(value))
-        log.info_log(rt.calculate(value))
+        l.info_log(rt.calculate(value))
 
   
 
 def clear():
     calc.delete(0,tk.END)  
     calc.insert(0,0)
-    log.info_log(clear())
+    l.info_log(clear())
 
 def make_digit_button(digit):
     return tk.Button(text=digit, bd=5, font=('Arial',13), command=lambda : add_digit(digit))    

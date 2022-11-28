@@ -26,7 +26,7 @@ def calculate(new_exp:list):
             i = new_exp.index(op)
             res = get_operation(new_exp[i - 1], op,  new_exp[i + 1])#вычисляем считываемую по порядку операцию с числами, которе находятся перед и после операции
             new_exp = new_exp[:i - 1] + [res] + new_exp[i + 2:]#здесь остается список с еще "невычисленными" цифрами и операциями 
-           
+  
     return res
 
 def get_expression(exp:str):
